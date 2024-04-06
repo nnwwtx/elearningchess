@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.title }} - Course Videos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <main class="pt-5">
+        <!-- Display the course title -->
+        <h2 class="mb-4">{{ product.title }}</h2>
+        <div class="row g-3 justify-content-end">
+            <div class="col-md-8">
+                <!-- Embed YouTube video here -->
+                <iframe id="videoPlayer" width="820" height="461" src="https://www.youtube.com/embed/{{ videos.0.video_url }}" frameborder="0" allowfullscreen></iframe>
+                <!-- Video description -->
+                <div class="video-description mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ videos.0.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Video links from database -->
+                <div class="video-list">
+                    <ul class="list-group">
+                        {% for video in videos %}
+                            <li class="list-group-item" data-description="{{ video.description }}"><a href="#" onclick="changeVideo('{{ video.video_url }}')">{{ video.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- Button for tasks -->
+                <p></p>
+                <a href="{% url 'chessboard:exercises' %}" class="btn btn-primary">Задания</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- JavaScript to change the video source and update the video description -->
+<script>
+    function changeVideo(videoUrl) {
+        var videoPlayer = document.getElementById('videoPlayer');
+        videoPlayer.src = 'https://www.youtube.com/embed/' + videoUrl;
+
+        // Получаем элемент, содержащий описание видео
+        var videoDescriptionElement = document.querySelector('.video-description .card-body');
+
+        // Находим элемент списка видео, который был нажат
+        var clickedVideoElement = document.querySelector(`a[href="#"][onclick="changeVideo('${videoUrl}')"]`).closest('.list-group-item');
+
+        // Извлекаем описание из атрибута data-description элемента списка
+        var videoDescription = clickedVideoElement.getAttribute('data-description');
+
+        // Обновляем содержимое элемента описания
+        videoDescriptionElement.textContent = videoDescription;
+    }
+
+    // Функция для демонстрации, замените на свою логику
+</script>
+{% endblock %}

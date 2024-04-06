@@ -1,0 +1,93 @@
+{% extends "chessboard/layout.html" %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row vh-100">
+        <!-- Список ссылок -->
+        <div class="col-12 col-lg-9 d-flex justify-content-center align-items-center">
+            <ul class="list-group">
+                <li class="list-group-item solved" id="solvedStatus">
+                    <span>Решена:</span>
+                    <span class="status">нет</span>
+                    <!-- Textbox with text 'Решение' -->
+                    <input type="text" id="solutionTextbox" placeholder="Решение">
+                    <!-- Button labeled 'Проверить' -->
+                    <button type="button" id="checkButton">Проверить</button>
+                </li>
+                <li class="list-group-item">
+                    <!-- Buttons for navigating -->
+                    <a href="{% url 'chessboard:exercises' %}">Предыдущая</a>
+                    <a href="{% url 'chessboard:exercises-2' %}">Следующая</a>
+                    <a href="{% url 'shop:my-courses' %}">Мои курсы</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Шахматная доска -->
+        <div class="col-12 col-lg-9 d-flex justify-content-between align-items-center">
+            <div id="myBoard" style="width: 650px"></div>
+        </div>
+
+        <!-- Дополнительная доска -->
+        <div class="col-lg-3 d-flex justify-content-end align-items-center">
+            <div id="board2" style="width: 400px"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to get current URL
+    function getCurrentURL() {
+        return window.location.href;
+    }
+
+    // Function to set the correct solution based on the current URL
+    function setCorrectSolution() {
+        var currentURL = getCurrentURL();
+        var solutionTextbox = document.getElementById("solutionTextbox");
+
+        if (currentURL.includes("exercises-2")) {
+            solutionTextbox.placeholder = "Решение";
+        } else {
+            solutionTextbox.placeholder = "Решение";
+        }
+    }
+
+    // Call setCorrectSolution() when the page loads
+    setCorrectSolution();
+
+    // Add event listener for "Проверить" button
+    document.getElementById("checkButton").addEventListener("click", function() {
+        var solution = document.getElementById("solutionTextbox").value;
+        var isCorrect = checkSolution(solution);
+        if (isCorrect) {
+            // Change solved status to "да"
+            document.querySelector("#solvedStatus .status").innerText = "да";
+            alert("Правильно!");
+        } else {
+            alert("Неправильно. Попробуйте еще раз.");
+        }
+    });
+
+    // Function to check if the solution is correct
+    function checkSolution(solution) {
+        var currentURL = getCurrentURL();
+        if (currentURL.includes("exercises-2")) {
+            return solution === "1. Bh4";
+        } else {
+            return solution === "1. Qh8";
+        }
+    }
+
+    // Add event listener for "Предыдущая" button
+    document.getElementById("prevButton").addEventListener("click", function() {
+        // Handle logic for previous button
+        console.log("Previous button clicked");
+    });
+
+    // Add event listener for "Следующая" button
+    document.getElementById("nextButton").addEventListener("click", function() {
+        // Handle logic for next button
+        console.log("Next button clicked");
+    });
+</script>
+{% endblock %}

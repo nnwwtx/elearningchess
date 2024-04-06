@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Meta data -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} TyChess.com {% endblock %}</title>
+        
+        <!-- Using latest version of bootstrap (version 5.3.1) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+        <!-- Chessboard.js library (including jQuery javascript library) -->
+        <link href="{% static 'chess/css/chessboard.css' %}" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        <script src="{% static 'chess/js/chessboard.js' %}"></script>
+
+        <!-- Load in project specific css and js --> 
+        <link href="{% static 'chess/css/styles.css' %}" rel="stylesheet">
+        <script type="module" src="{% static 'chess/js/chess_logic.js' %}"></script>
+        <script src="{% static 'chess/js/index.js' %}"></script>
+
+        <!-- <link rel="icon" type="image/x-icon" href="{% static 'chess/tm.png' %}"> -->
+
+    </head>
+
+    <body>
+        <div class="container-fluid overflow-hidden">
+
+                <!-- Main webpage (non-sidebar) -->
+                <div class="col d-flex flex-column h-100">
+                    <main class="row">
+                        <div class="col pt-1">
+                            {% block body %}
+
+                            {% endblock %}
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
